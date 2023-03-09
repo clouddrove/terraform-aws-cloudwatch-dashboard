@@ -14,7 +14,7 @@ func TestCloudWatch(t *testing.T) {
 
 	terraformOptions := &terraform.Options{
 		// Source path of Terraform directory.
-		TerraformDir: "../../_example/expression_example",
+		TerraformDir: "../../_example/complete",
 	}
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
@@ -27,5 +27,5 @@ func TestCloudWatch(t *testing.T) {
 	Tags := terraform.OutputMap(t, terraformOptions, "tags")
 
 	// Check that we get back the outputs that we expect
-	assert.Equal(t, "alarm-test", Tags["Name"])
+	assert.Equal(t, "dashboard-test", Tags["Name"])
 }
