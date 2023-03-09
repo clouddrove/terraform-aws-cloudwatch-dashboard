@@ -1,3 +1,47 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: Terraform AWS Cloudwatch Dashboard
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: clouddrove/terraform-aws-cloudwatch-dashboard
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.1.7-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE.md"
+  - name: "tfsec"
+    image: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/tfsec.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/tfsec.yml"
+  - name: "static-checks"
+    image: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/terraform.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/actions/workflows/terraform.yml"
+
+#  description of this project
+description: |-
+  Terraform module creates Cloudwatch Dashboard on AWS for monitoriing AWS services.
+
+# extra content
+include:
+  - "terraform.md"
+
+# How to use this project
+# yamllint disable rule:line-length
+usage: |-
+  Here are  the example of how you can use this module in your inventory structure:
+  ### Example
+  ```hcl
 provider "aws" {
   region = "us-east-1"
 }
@@ -68,3 +112,5 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
   dashboard_body = module.dashboard.json_map_encoded
   dashboard_name = "test-dashboard"
 } 
+
+  ```
