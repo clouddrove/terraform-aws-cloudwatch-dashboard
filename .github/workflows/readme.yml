@@ -1,6 +1,14 @@
 name: 'Create README.md file'
 on:
-  pull_request:
+  push:
+    branches:
+      - master
+    paths:
+      - 'main.tf' 
+      - 'variables.tf' 
+      - 'outputs.tf' 
+      - 'versions.tf' 
+  workflow_dispatch:
 
 jobs:
   readme-create:
