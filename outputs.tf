@@ -1,4 +1,6 @@
-output "json_map_encoded" {
-  description = "AWS CloudWatch Dashboard JSON template"
-  value       = local.json_map
+#Module      : CLOUDWATCH DASHBOARD MODULE
+#Description : Terraform module creates Cloudwatch Dashboard on AWS for monitoriing AWS services.
+
+output "dashboard_arn" {
+  value = join("", aws_cloudwatch_dashboard.default[*].dashboard_arn)
 }

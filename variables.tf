@@ -1,22 +1,46 @@
-variable "widgets" {
-  description = "The list of widgets in the dashboard."
+#Module      : LABEL
+#Description : Terraform label module variables.
+variable "name" {
+  type        = string
+  default     = ""
+  description = "Name  (e.g. `app` or `cluster`)."
+}
+
+variable "repository" {
+  type        = string
+  default     = "https://github.com/clouddrove/terraform-aws-s3"
+  description = "Terraform current module repo"
+}
+
+variable "environment" {
+  type        = string
+  default     = ""
+  description = "Environment (e.g. `prod`, `dev`, `staging`)."
+}
+
+variable "label_order" {
+  type        = list(any)
+  default     = []
+  description = "Label order, e.g. `name`,`application`."
+}
+
+variable "managedby" {
+  type        = string
+  default     = "hello@clouddrove.com"
+  description = "ManagedBy, eg 'CloudDrove'."
+}
+
+# Module      : CLOUDWATCH DASHBOARD
+# Description : Terraform CloudWatch Dashboard module variables.
+variable "enable" {
+  type        = bool
+  default     = true
+  description = "Conditionally create CloudWatch Dashboard."
+}
+
+variable "dashboard_body" {
   type        = any
+  default     = null
+  description = "Json file with Environment(optional) variables."
 }
 
-variable "end" {
-  description = "The end of the time range to use for each widget on the dashboard when the dashboard loads. If you specify a value for end, you must also specify a value for start. For each of these values, specify an absolute time in the ISO 8601 format. For example, 2018-12-17T06:00:00.000Z."
-  default     = null
-  type        = string
-}
-
-variable "start" {
-  description = "The start of the time range to use for each widget on the dashboard."
-  default     = null
-  type        = string
-}
-
-variable "periodOverride" {
-  description = "Use this field to specify the period for the graphs when the dashboard loads. Specifying auto causes the period of all graphs on the dashboard to automatically adapt to the time range of the dashboard. Specifying inherit ensures that the period set for each graph is always obeyed."
-  default     = null
-  type        = string
-}
