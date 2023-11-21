@@ -33,6 +33,6 @@ module "cloudwatch_dashboard" {
   environment = local.environment
   dashboard_body = templatefile("${path.module}/ecr_dashboard.json", {
     region         = local.region
-    log-group      = "cloudtrail-log-group"
+    log-group      = "cloudtrail-log-group"  # Log group of the cloudtrail or log group name where the ECR history/API Calls is stored
   })
 }
