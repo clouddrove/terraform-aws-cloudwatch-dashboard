@@ -47,7 +47,3 @@ module "cloudwatch_dashboard" {
     lambda_function_name = split(":", module.lambda.arn)[6]
   })
 }
-
-output "dashboard_arn" {
-  value = module.cloudwatch_dashboard.dashboard_arn
-}
