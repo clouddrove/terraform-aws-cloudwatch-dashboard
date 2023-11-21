@@ -8,7 +8,7 @@
             "width": 24,
             "height": 6,
             "properties": {
-                "query": "SOURCE 'cloudtrail-log-group' | filter eventName = 'BatchGetImage'\n\n\n\n | fields @timestamp, @message\n\n\n\n | stats count(*) as apiCalls by userIdentity.accountId as accountId,\n\nrequestParameters.repositoryName as repository\n| sort accountId desc",
+                "query": "SOURCE '${log-group}' | filter eventName = 'BatchGetImage'\n\n\n\n | fields @timestamp, @message\n\n\n\n | stats count(*) as apiCalls by userIdentity.accountId as accountId,\n\nrequestParameters.repositoryName as repository\n| sort accountId desc",
                 "region": "${region}",
                 "title": "Images per Accounts",
                 "view": "table"
@@ -21,7 +21,7 @@
             "width": 12,
             "height": 6,
             "properties": {
-                "query": "SOURCE 'cloudtrail-log-group' | filter eventName = 'BatchGetImage'\n\n\n\n\n\n\n\n | fields @timestamp, @message\n\n\n\n\n\n\n\n | stats count_distinct(requestParameters.repositoryName) as Images by\nuserIdentity.accountId as accountId\n\n\n| sort Images desc",
+                "query": "SOURCE '${log-group}' | filter eventName = 'BatchGetImage'\n\n\n\n\n\n\n\n | fields @timestamp, @message\n\n\n\n\n\n\n\n | stats count_distinct(requestParameters.repositoryName) as Images by\nuserIdentity.accountId as accountId\n\n\n| sort Images desc",
                 "region": "${region}",
                 "title": "Usage by Accounts",
                 "view": "pie",
@@ -37,7 +37,7 @@
             "width": 12,
             "height": 6,
             "properties": {
-                "query": "SOURCE 'cloudtrail-log-group' | filter eventName = 'BatchGetImage'\n\n\n\n\n\n\n\n | fields @timestamp, @message\n\n\n\n\n\n\n\n | stats count_distinct(userIdentity.accountId) as Accounts by requestParameters.repositoryName as imageName \n\n\n| sort Accounts desc",
+                "query": "SOURCE '${log-group}' | filter eventName = 'BatchGetImage'\n\n\n\n\n\n\n\n | fields @timestamp, @message\n\n\n\n\n\n\n\n | stats count_distinct(userIdentity.accountId) as Accounts by requestParameters.repositoryName as imageName \n\n\n| sort Accounts desc",
                 "region": "${region}",
                 "title": "ECR Repositories Usage",
                 "view": "pie",
@@ -53,7 +53,7 @@
             "width": 24,
             "height": 6,
             "properties": {
-                "query": "SOURCE 'cloudtrail-log-group' | filter eventName = 'BatchGetImage'\n\n\n\n | fields @timestamp, @message\n\n\n\n | stats count(*) as apiCalls by userIdentity.accountId as accountId,\n\nrequestParameters.repositoryName as repository, coalesce(requestParameters.imageIds.0.imageTag, requestParameters.imageIds.0.imageDigest) as tag\n| sort accountId desc",
+                "query": "SOURCE '${log-group}' | filter eventName = 'BatchGetImage'\n\n\n\n | fields @timestamp, @message\n\n\n\n | stats count(*) as apiCalls by userIdentity.accountId as accountId,\n\nrequestParameters.repositoryName as repository, coalesce(requestParameters.imageIds.0.imageTag, requestParameters.imageIds.0.imageDigest) as tag\n| sort accountId desc",
                 "region": "${region}",
                 "title": "Images and tags per accounts",
                 "view": "table"

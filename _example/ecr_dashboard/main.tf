@@ -32,6 +32,7 @@ module "cloudwatch_dashboard" {
   name        = local.name
   environment = local.environment
   dashboard_body = templatefile("${path.module}/ecr_dashboard.json", {
-    region               = local.region
+    region         = local.region
+    log-group      = "cloudtrail-log-group"
   })
 }
