@@ -4,11 +4,11 @@
 
 
 <h1 align="center">
-    Terraform AWS Cloudwatch Alarms
+    Terraform AWS Cloudwatch Dashboard
 </h1>
 
 <p align="center" style="font-size: 1.2rem;"> 
-    Terraform module creates Cloudwatch Alarm on AWS for monitoriing AWS services.
+    Terraform module creates Cloudwatch Dashboard on AWS for monitoriing AWS services.
      </p>
 
 <p align="center">
@@ -30,13 +30,13 @@
 </p>
 <p align="center">
 
-<a href='https://facebook.com/sharer/sharer.php?u=https://github.com/clouddrove/terraform-aws-cloudwatch-alarms'>
+<a href='https://facebook.com/sharer/sharer.php?u=https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard'>
   <img title="Share on Facebook" src="https://user-images.githubusercontent.com/50652676/62817743-4f64cb80-bb59-11e9-90c7-b057252ded50.png" />
 </a>
-<a href='https://www.linkedin.com/shareArticle?mini=true&title=Terraform+AWS+Cloudwatch+Alarms&url=https://github.com/clouddrove/terraform-aws-cloudwatch-alarms'>
+<a href='https://www.linkedin.com/shareArticle?mini=true&title=Terraform+AWS+Cloudwatch+Dashboard&url=https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard'>
   <img title="Share on LinkedIn" src="https://user-images.githubusercontent.com/50652676/62817742-4e339e80-bb59-11e9-87b9-a1f68cae1049.png" />
 </a>
-<a href='https://twitter.com/intent/tweet/?text=Terraform+AWS+Cloudwatch+Alarms&url=https://github.com/clouddrove/terraform-aws-cloudwatch-alarms'>
+<a href='https://twitter.com/intent/tweet/?text=Terraform+AWS+Cloudwatch+Dashboard&url=https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard'>
   <img title="Share on Twitter" src="https://user-images.githubusercontent.com/50652676/62817740-4c69db00-bb59-11e9-8a79-3580fbbf6d5c.png" />
 </a>
 
@@ -57,12 +57,6 @@ We have [*fifty plus terraform modules*][terraform_modules]. A few of them are c
 
 This module has a few dependencies: 
 
-- [Terraform 1.x.x](https://learn.hashicorp.com/terraform/getting-started/install.html)
-- [Go](https://golang.org/doc/install)
-- [github.com/stretchr/testify/assert](https://github.com/stretchr/testify)
-- [github.com/gruntwork-io/terratest/modules/terraform](https://github.com/gruntwork-io/terratest)
-
-
 
 
 
@@ -71,123 +65,107 @@ This module has a few dependencies:
 ## Examples
 
 
-**IMPORTANT:** Since the `master` branch used in `source` varies based on new modifications, we suggest that you use the release versions [here](https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/releases).
+**IMPORTANT:** Since the `master` branch used in `source` varies based on new modifications, we suggest that you use the release versions [here](https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard/releases).
 
 
-Here are some examples of how you can use this module in your inventory structure:
+Here are  the example of how you can use this module in your inventory structure:
 ### Example
 ```hcl
-provider "aws" {
-  region = "us-east-1"
-}
+  provider "aws" {
+    region = "us-east-1"
+  }
 
-module "dashboard" {
-  source = "clouddrove/terraform-aws-cloudwatch-dashboard/aws"
-  start  = "-PT4H"
-  widgets = [
-    {
-      height = 5
-      width  = 14      
-      y      = 19
-      x      = 10
+  module "dashboard" {
+    source = "../../"
+    start  = "-PT4H"
+    widgets = [
+      {
+        height = 5
+        width  = 14      
+        y      = 19
+        x      = 10
 
-      type = "metric"
-      properties = {
-        metrics = [
-                    [ "ContainerInsights", "pod_number_of_container_restarts", "PodName", "api", "ClusterName", "prod-xcheck-eks-cluster", "Namespace", "api-mbj" ],
-                    [ "...", "testing", ".", ".", ".", "testing" ],
-        ]
-        view                  = "pie"
-        stacked               = false
-        region                = "us-east-1"
-        liveData              = true        
-        title                 = "Number of container restarts"
-        period                = 300
-        setPeriodToTimeRange  = false,        
-        stat                  = "Average"
-        legend = {
-          "position": "bottom"
+        type = "metric"
+        properties = {
+          metrics = [
+                      [ "ContainerInsights", "pod_number_of_container_restarts", "PodName", "api", "ClusterName", "prod-xcheck-eks-cluster", "Namespace", "api-mbj" ],
+                      [ "...", "testing", ".", ".", ".", "testing" ],
+          ]
+          view                  = "pie"
+          stacked               = false
+          region                = "us-east-1"
+          liveData              = true        
+          title                 = "Number of container restarts"
+          period                = 300
+          setPeriodToTimeRange  = false,        
+          stat                  = "Average"
+          legend = {
+            "position": "bottom"
+          }
+          sparkline             = true
+          trend                 = true
+          labels = {
+            "visible": "true"
+          }        
         }
-        sparkline             = true
-        trend                 = true
-        labels = {
-          "visible": "true"
-        }        
-      }
-    },
-    {
-      height = 14
-      width  = 10     
-      y      = 5
-      x      = 0
+      },
+      {
+        height = 14
+        width  = 10     
+        y      = 5
+        x      = 0
 
-      type = "metric"
-      properties = {
-        metrics = [
-                    [ "ContainerInsights", "pod_memory_utilization", "PodName", "api", "ClusterName", "test-xcheck-eks-cluster", "Namespace", "api-puj" ],
-                    [ "...", "api-test" ],
-        ]
-        view    = "pie"
-        region  = "us-east-1"
-        title   = "Tet pod Memory Utilization"
-        period  = 300
-        trend    = true
-        liveData = true
-        sparkline = true        
-        setPeriodToTimeRange = false,
-        labels = {
-          "visible": "true"
+        type = "metric"
+        properties = {
+          metrics = [
+                      [ "ContainerInsights", "pod_memory_utilization", "PodName", "api", "ClusterName", "test-xcheck-eks-cluster", "Namespace", "api-puj" ],
+                      [ "...", "api-test" ],
+          ]
+          view    = "pie"
+          region  = "us-east-1"
+          title   = "Tet pod Memory Utilization"
+          period  = 300
+          trend    = true
+          liveData = true
+          sparkline = true        
+          setPeriodToTimeRange = false,
+          labels = {
+            "visible": "true"
+          }
         }
       }
-    }
-  ]
-}
+    ]
+  }
 
-resource "aws_cloudwatch_dashboard" "dashboard" {
-  dashboard_body = module.dashboard.json_map_encoded
-  dashboard_name = "test-dashboard"
-} 
+  resource "aws_cloudwatch_dashboard" "dashboard" {
+    dashboard_body = module.dashboard.json_map_encoded
+    dashboard_name = "test-dashboard"
+  } 
 
 ```
+
+
+
+
 
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| actions\_enabled | Indicates whether or not actions should be executed during any changes to the alarm's state. | `bool` | `true` | no |
-| alarm\_actions | The list of actions to execute when this alarm transitions into an ALARM state from any other state. | `list(any)` | `[]` | no |
-| alarm\_description | The description for the alarm. | `string` | `""` | no |
-| alarm\_name | The descriptive name for the alarm. | `string` | n/a | yes |
-| comparison\_operator | The arithmetic operation to use when comparing the specified Statistic and Threshold. | `string` | n/a | yes |
-| dimensions | Dimensions for metrics. | `map` | `{}` | no |
-| enabled | Enable alarm. | `bool` | `true` | no |
+| dashboard\_body | Json file with Environment(optional) variables. | `any` | `null` | no |
+| enable | Conditionally create CloudWatch Dashboard. | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
-| evaluation\_periods | The number of periods over which data is compared to the specified threshold. | `number` | n/a | yes |
-| expression\_enabled | Enable alarm with expression. | `bool` | `false` | no |
-| instance\_id | The instance ID. | `string` | `""` | no |
-| insufficient\_data\_actions | The list of actions to execute when this alarm transitions into an INSUFFICIENT\_DATA state from any other state. | `list(any)` | `[]` | no |
 | label\_order | Label order, e.g. `name`,`application`. | `list(any)` | `[]` | no |
 | managedby | ManagedBy, eg 'CloudDrove'. | `string` | `"hello@clouddrove.com"` | no |
-| metric\_name | The name for the alarm's associated metric. | `string` | `"CPUUtilization"` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
-| namespace | The namespace for the alarm's associated metric. | `string` | `"AWS/EC2"` | no |
-| ok\_actions | The list of actions to execute when this alarm transitions into an OK state from any other state. | `list(any)` | `[]` | no |
-| period | The period in seconds over which the specified statistic is applied. | `number` | `120` | no |
-| query\_expressions | values for metric query expression. | `list` | <pre>[<br>  {<br>    "expression": "ANOMALY_DETECTION_BAND(m1)",<br>    "id": "e1",<br>    "label": "CPUUtilization (Expected)",<br>    "return_data": "true"<br>  }<br>]</pre> | no |
-| query\_metrics | values for metric query metrics. | `list` | <pre>[<br>  {<br>    "dimensions": {<br>      "InstanceId": "i-abc123"<br>    },<br>    "id": "m1",<br>    "metric_name": "CPUUtilization",<br>    "namespace": "AWS/EC2",<br>    "period": "120",<br>    "return_data": "true",<br>    "stat": "Average",<br>    "unit": "Count"<br>  }<br>]</pre> | no |
-| repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-cloudwatch-alarms"` | no |
-| statistic | The statistic to apply to the alarm's associated metric. | `string` | `"Average"` | no |
-| threshold | The value against which the specified statistic is compared. | `number` | `40` | no |
-| threshold\_metric\_id | If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY\_DETECTION\_BAND function. | `string` | `""` | no |
+| repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-s3"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| arn | The ARN of the cloudwatch metric alarm. |
-| id | The ID of the health check. |
-| tags | A mapping of tags to assign to the resource. |
+| dashboard\_arn | n/a |
 
 
 
@@ -203,9 +181,9 @@ You need to run the following command in the testing folder:
 
 
 ## Feedback 
-If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/clouddrove/terraform-aws-cloudwatch-alarms/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
+If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
 
-If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/clouddrove/terraform-aws-cloudwatch-alarms)!
+If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/clouddrove/terraform-aws-cloudwatch-dashboard)!
 
 ## About us
 
