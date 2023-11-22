@@ -59,9 +59,6 @@ This module has a few dependencies:
 
 
 
-
-
-
 ## Examples
 
 
