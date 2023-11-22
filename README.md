@@ -59,6 +59,9 @@ This module has a few dependencies:
 
 
 
+
+
+
 ## Examples
 
 
@@ -66,79 +69,82 @@ This module has a few dependencies:
 
 
 Here are  the example of how you can use this module in your inventory structure:
-### Example
+### Complete Example
 ```hcl
-  provider "aws" {
-    region = "us-east-1"
+  locals {
+    name        = "dashboard"
+    environment = "test"
+    region      = "us-east-1"
   }
 
-  module "dashboard" {
-    source = "../../"
-    start  = "-PT4H"
-    widgets = [
-      {
-        height = 5
-        width  = 14      
-        y      = 19
-        x      = 10
+  ##-----------------------------------------------------------------------------
+  ## LAMBDA
+  ##-----------------------------------------------------------------------------
+  module "lambda" {
+    source  = "clouddrove/lambda/aws"
+    version = "1.3.1"
 
-        type = "metric"
-        properties = {
-          metrics = [
-                      [ "ContainerInsights", "pod_number_of_container_restarts", "PodName", "api", "ClusterName", "prod-xcheck-eks-cluster", "Namespace", "api-mbj" ],
-                      [ "...", "testing", ".", ".", ".", "testing" ],
-          ]
-          view                  = "pie"
-          stacked               = false
-          region                = "us-east-1"
-          liveData              = true        
-          title                 = "Number of container restarts"
-          period                = 300
-          setPeriodToTimeRange  = false,        
-          stat                  = "Average"
-          legend = {
-            "position": "bottom"
-          }
-          sparkline             = true
-          trend                 = true
-          labels = {
-            "visible": "true"
-          }        
-        }
-      },
-      {
-        height = 14
-        width  = 10     
-        y      = 5
-        x      = 0
+    name        = "${local.name}-lambda-function"
+    environment = local.environment
 
-        type = "metric"
-        properties = {
-          metrics = [
-                      [ "ContainerInsights", "pod_memory_utilization", "PodName", "api", "ClusterName", "test-xcheck-eks-cluster", "Namespace", "api-puj" ],
-                      [ "...", "api-test" ],
-          ]
-          view    = "pie"
-          region  = "us-east-1"
-          title   = "Tet pod Memory Utilization"
-          period  = 300
-          trend    = true
-          liveData = true
-          sparkline = true        
-          setPeriodToTimeRange = false,
-          labels = {
-            "visible": "true"
-          }
-        }
-      }
-    ]
+    enable                         = true
+    timeout                        = 60
+    runtime                        = "python3.8"
+    handler                        = "index.lambda_handler"
+    filename                       = "./test-dashboard-lambda-function.zip"
+    layer_filenames                = ["./test-dashboard-lambda-function.zip"]
+    names                          = ["python_layer"]
+    compatible_runtimes            = [["python3.8"]]
+    iam_actions                    = ["logs:CreateLogStream", "logs:CreateLogGroup", "logs:PutLogEvents"]
+    statement_ids                  = ["AllowExecutionFromCloudWatch"]
+    actions                        = ["lambda:InvokeFunction"]
+    principals                     = ["apigateway.amazonaws.com"]
+    reserved_concurrent_executions = null
   }
 
-  resource "aws_cloudwatch_dashboard" "dashboard" {
-    dashboard_body = module.dashboard.json_map_encoded
-    dashboard_name = "test-dashboard"
-  } 
+  ##-----------------------------------------------------------------------------
+  ## CLOUDWATCH DASHBOARD
+  ##-----------------------------------------------------------------------------
+  module "cloudwatch_dashboard" {
+    source  = "clouddrove/cloudwatch-dashboard/aws"
+    version = "1.0.0"	
 
+    enable      = true
+    name        = local.name
+    environment = local.environment
+    dashboard_body = templatefile("${path.module}/lambda_dashboard.json", {
+      region               = local.region
+      lambda_function_name = split(":", module.lambda.arn)[6]
+    })
+  }
+
+  output "dashboard_arn" {
+    value = module.cloudwatch_dashboard.dashboard_arn
+  }  
+```
+
+### ECR Dashboard Example
+```hcl
+  locals {
+    name        = "dashboard"
+    environment = "test"
+    region      = "us-east-1"
+  }
+
+  ##-----------------------------------------------------------------------------
+  ## CLOUDWATCH DASHBOARD
+  ##-----------------------------------------------------------------------------
+  module "cloudwatch_dashboard" {
+    source  = "clouddrove/cloudwatch-dashboard/aws"
+    version = "1.0.0"	
+
+    enable      = true
+    name        = local.name
+    environment = local.environment
+    dashboard_body = templatefile("${path.module}/ecr_dashboard.json", {
+      region               = local.region
+    })
+  }
 ```
 
 
@@ -162,7 +168,7 @@ Here are  the example of how you can use this module in your inventory structure
 
 | Name | Description |
 |------|-------------|
-| dashboard\_arn | n/a |
+| dashboard\_arn | The Amazon Resource Name (ARN) of the dashboard |
 
 
 
