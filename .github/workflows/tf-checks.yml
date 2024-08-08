@@ -6,10 +6,10 @@ on:
   workflow_dispatch:
 jobs:
   single-account-example:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master    
     with:
       working_directory: './_example/complete/'
   main-account-example:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master    
     with:
       working_directory: './_example/ecr_dashboard/'

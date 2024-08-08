@@ -8,7 +8,7 @@ on:
     paths:
       - 'main.tf' 
       - 'variables.tf' 
-      - 'outputs.tf' 
+      - 'outputs.tf'   
       - 'versions.tf' 
   workflow_dispatch:
 
@@ -40,7 +40,7 @@ jobs:
       - name: 'create readme'
         uses: 'clouddrove/github-actions@9.0.3'
         with:
-          actions_subcommand: 'readme'
+          actions_subcommand: 'readme'      
           github_token: '${{ secrets.GITHUB }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB }}
