@@ -15,4 +15,3 @@
 | Name | Description |
 |------|-------------|
 | dashboard\_arn | The Amazon Resource Name (ARN) of the dashboard |
-
