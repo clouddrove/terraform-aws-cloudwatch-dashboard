@@ -91,7 +91,7 @@ usage: |-
     ##-----------------------------------------------------------------------------
     module "cloudwatch_dashboard" {
       source  = "clouddrove/cloudwatch-dashboard/aws"
-      version = "1.0.0"	
+      version = "1.0.0"
 
       enable      = true
       name        = local.name
@@ -104,9 +104,9 @@ usage: |-
 
     output "dashboard_arn" {
       value = module.cloudwatch_dashboard.dashboard_arn
-    }  
+    }
   ```
-  
+
   ### ECR Dashboard Example
   ```hcl
     locals {
@@ -120,7 +120,7 @@ usage: |-
     ##-----------------------------------------------------------------------------
     module "cloudwatch_dashboard" {
       source  = "clouddrove/cloudwatch-dashboard/aws"
-      version = "1.0.0"	
+      version = "1.0.0"
 
       enable      = true
       name        = local.name

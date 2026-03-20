@@ -43,4 +43,3 @@ variable "dashboard_body" {
   default     = null
   description = "Json file with Environment(optional) variables."
 }
-
