@@ -11,6 +11,6 @@ terraform {
   }
 
   provider_meta "aws" {
-    module_name = "clouddrove/terraform-aws-cloudwatch-dashboard"
+    user_agent = ["github.com/clouddrove/terraform-aws-cloudwatch-dashboard"]
   }
 }
